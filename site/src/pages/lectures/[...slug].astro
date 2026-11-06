@@ -1,0 +1,159 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { course } from '../../course';
+import { getLectures, formatDate, lectureLabel, type Lecture } from '../../lib/lectures';
+
+export async function getStaticPaths() {
+  const lectures = await getLectures();
+  return lectures.map((lecture, i) => ({
+    params: { slug: lecture.id },
+    props: { lecture, prev: lectures[i - 1], next: lectures[i + 1] },
+  }));
+}
+
+interface Props { lecture: Lecture; prev?: Lecture; next?: Lecture }
+const { lecture, prev, next } = Astro.props;
+const { Content, remarkPluginFrontmatter } = await render(lecture);
+const slides: { n: number; title: string; level: number }[] = remarkPluginFrontmatter.slides ?? [];
+const d = lecture.data;
+const base = import.meta.env.BASE_URL;
+
+const label = `${course.code} · ${lectureLabel(lecture)}`;
+const cssString = (s: string) => `"${s.replace(/["\\]/g, '\\$&')}"`;
+const aspect = d.aspect === '4:3' ? '4 / 3' : '16 / 9';
+---
+
+<Base title={`${d.title} · ${course.code}`} description={d.description} bodyClass="lecture-page">
+  <button slot="header-start" class="btn icon toc-toggle" type="button" aria-label="Contents" title="Contents">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
+  </button>
+  <Fragment slot="crumb">{lectureLabel(lecture)}: {d.title}</Fragment>
+  <div slot="header-end" class="lecture-toolbar">
+    <div class="segmented layout-switch" role="group" aria-label="Reading layout">
+      <button type="button" data-layout="stacked" title="Slides with notes below">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="9" rx="1.5" /><path d="M4 16h16M4 20h10" /></svg>
+        <span class="label">Stacked</span>
+      </button>
+      <button type="button" data-layout="side" title="Slides with notes beside them">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="12" height="8" rx="1.5" /><path d="M17 6h5M17 10h5M17 14h3" /></svg>
+        <span class="label">Side by side</span>
+      </button>
+      <button type="button" data-layout="grid" title="Slides only, as a grid">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="8" height="6" rx="1" /><rect x="13" y="4" width="8" height="6" rx="1" /><rect x="3" y="14" width="8" height="6" rx="1" /><rect x="13" y="14" width="8" height="6" rx="1" /></svg>
+        <span class="label">Grid</span>
+      </button>
+    </div>
+    <button class="btn icon help-btn" type="button" title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">?</button>
+    <button class="btn presenter-btn" type="button" title="Open presenter view in a new window (S)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="13" height="10" rx="1.5" /><path d="M18 6h4M18 10h4M5 20h7M8.5 14v6" /></svg>
+      <span class="label">Presenter</span>
+    </button>
+    <button class="btn primary present-btn" type="button" title="Present from the current slide (P)">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z" /></svg>
+      <span class="label">Present</span> <kbd>P</kbd>
+    </button>
+  </div>
+
+  <div class="lecture-shell">
+    <nav class="toc" aria-label="Slides">
+      <p class="toc-title">Slides</p>
+      <ol>
+        {slides.map((s) => (
+          <li class={`lvl-${s.level}`}>
+            <a href={`#s${s.n}`} data-n={s.n}><span class="n">{s.n}</span><span>{s.title}</span></a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+
+    <main class="lecture-main">
+      <header class="lecture-head">
+        <div class="eyebrow">{lectureLabel(lecture)}{d.unit && ` · ${d.unit}`}</div>
+        <h1>{d.title}</h1>
+        <div class="meta">
+          {[d.subtitle, formatDate(d.date), `${slides.length} slides`].filter(Boolean).join(' · ')}
+        </div>
+        <p class="hint">
+          Press <kbd class="k">P</kbd> to present from where you are, <kbd class="k">S</kbd> for presenter view,
+          <kbd class="k">?</kbd> for all shortcuts. Printing this page gives a slides + notes handout.
+        </p>
+      </header>
+
+      <article
+        class="deck"
+        data-layout="stacked"
+        data-slide-theme={d.theme}
+        data-deck-id={lecture.id}
+        style={`--deck-label: ${cssString(label)}; --aspect-ratio: ${aspect};`}
+      >
+        <Content />
+      </article>
+
+      <nav class="lecture-pager">
+        {prev ? <a class="btn" href={`${base}lectures/${prev.id}/`}>← {prev.data.title}</a> : <span />}
+        {next ? <a class="btn" href={`${base}lectures/${next.id}/`}>{next.data.title} →</a> : <span />}
+      </nav>
+    </main>
+  </div>
+
+  <div class="present-hud" aria-hidden="true"><div class="bar"></div></div>
+  <div class="present-controls">
+    <button type="button" data-action="prev" aria-label="Previous">‹</button>
+    <button type="button" data-action="next" aria-label="Next">›</button>
+    <button type="button" data-action="fullscreen" aria-label="Toggle full screen">⛶</button>
+    <button type="button" data-action="exit" aria-label="Stop presenting">Esc</button>
+  </div>
+  <div class="goto-indicator" aria-live="polite"></div>
+
+  <div class="presenter" data-slide-theme={d.theme} style={`--deck-label: ${cssString(label)}; --aspect-ratio: ${aspect};`} hidden>
+    <div class="presenter-bar">
+      <span class="count"></span>
+      <span class="timer" title="Elapsed (click to pause)">0:00</span>
+      <button type="button" data-action="timer-reset">Reset timer</button>
+      <span class="spacer"></span>
+      <button type="button" data-action="notes-smaller" aria-label="Smaller notes">A−</button>
+      <button type="button" data-action="notes-bigger" aria-label="Bigger notes">A+</button>
+      <button type="button" data-action="prev">‹ Prev</button>
+      <button type="button" data-action="next">Next ›</button>
+      <span class="clock"></span>
+    </div>
+    <div class="presenter-current"></div>
+    <div class="presenter-side">
+      <div class="presenter-next"><div class="label">Next</div><div class="next-slot"></div></div>
+      <div class="presenter-notes"><div class="label">Notes</div><div class="notes-slot"></div></div>
+    </div>
+  </div>
+
+  <dialog class="help">
+    <h2>Keyboard shortcuts</h2>
+    <table>
+      <tbody>
+        <tr><td><kbd>P</kbd></td><td>Present from the slide in view</td></tr>
+        <tr><td><kbd>S</kbd></td><td>Open presenter view (notes, next slide, timer) in a new window</td></tr>
+        <tr><td><kbd>→</kbd> <kbd>Space</kbd> <kbd>PgDn</kbd></td><td>Next step / slide (clickers work too)</td></tr>
+        <tr><td><kbd>←</kbd> <kbd>PgUp</kbd></td><td>Previous step / slide</td></tr>
+        <tr><td><kbd>↓</kbd> / <kbd>↑</kbd> while presenting</td><td>Next / previous slide, skipping steps</td></tr>
+        <tr><td><kbd>Home</kbd> / <kbd>End</kbd></td><td>First / last slide</td></tr>
+        <tr><td>number, then <kbd>Enter</kbd></td><td>Go to slide</td></tr>
+        <tr><td><kbd>F</kbd></td><td>Toggle full screen</td></tr>
+        <tr><td><kbd>B</kbd> or <kbd>.</kbd></td><td>Black screen</td></tr>
+        <tr><td><kbd>Esc</kbd></td><td>Stop presenting (returns to the same slide in the page)</td></tr>
+        <tr><td><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> while reading</td><td>Stacked / side by side / grid layout</td></tr>
+        <tr><td><kbd>N</kbd> while reading</td><td>Show speaker notes inline</td></tr>
+        <tr><td><kbd>J</kbd> / <kbd>K</kbd> while reading</td><td>Scroll to next / previous slide</td></tr>
+      </tbody>
+    </table>
+    <form method="dialog"><button class="btn close">Close</button></form>
+  </dialog>
+
+  <script>
+    import { initDeck } from '../../scripts/deck';
+    initDeck();
+  </script>
+</Base>
+
+<style>
+  .lecture-pager { max-width: 860px; margin: 64px auto 0; display: flex; justify-content: space-between; gap: 12px; }
+  .lecture-pager .btn { max-width: 48%; overflow: hidden; text-overflow: ellipsis; }
+</style>

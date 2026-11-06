@@ -1,0 +1,52 @@
+---
+import Base from '../layouts/Base.astro';
+import { course } from '../course';
+import { getLectures, formatDate } from '../lib/lectures';
+
+const lectures = await getLectures();
+const base = import.meta.env.BASE_URL;
+
+// Group by optional `unit` frontmatter, keeping lecture order.
+const groups: { unit?: string; items: typeof lectures }[] = [];
+for (const l of lectures) {
+  const last = groups[groups.length - 1];
+  if (last && last.unit === l.data.unit) last.items.push(l);
+  else groups.push({ unit: l.data.unit, items: [l] });
+}
+---
+
+<Base title={`${course.code}: ${course.title}`}>
+  <main class="home">
+    <section class="home-hero">
+      <div class="eyebrow">{course.code} · {course.term}</div>
+      <h1>{course.title}</h1>
+      <p class="meta">{course.instructor}</p>
+      <p class="blurb">{course.blurb}</p>
+    </section>
+
+    {groups.map((g) => (
+      <>
+        {g.unit && <h2 class="unit-heading">{g.unit}</h2>}
+        <ol class="lecture-list">
+          {g.items.map((l) => (
+            <li>
+              <a class="lecture-card" href={`${base}lectures/${l.id}/`}>
+                <span class="lecture-num">{l.data.number ?? '·'}</span>
+                <span>
+                  <h2>
+                    {l.data.title}
+                    {l.data.draft && <span class="draft-badge">Draft</span>}
+                  </h2>
+                  {(l.data.description || l.data.subtitle) && <p>{l.data.description ?? l.data.subtitle}</p>}
+                </span>
+                <span class="side">{formatDate(l.data.date)}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </>
+    ))}
+
+    {lectures.length === 0 && <p>No lectures yet. Add a Markdown file to <code>src/content/lectures/</code>.</p>}
+  </main>
+</Base>

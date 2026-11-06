@@ -1,0 +1,68 @@
+---
+import '@fontsource-variable/inter';
+import '@fontsource-variable/source-serif-4';
+import '@fontsource-variable/jetbrains-mono';
+import 'katex/dist/katex.min.css';
+import '../styles/tokens.css';
+import '../styles/site.css';
+import '../styles/slides.css';
+import '../styles/print.css';
+import { course } from '../course';
+
+interface Props {
+  title: string;
+  description?: string;
+  bodyClass?: string;
+}
+const { title, description = course.blurb, bodyClass } = Astro.props;
+const base = import.meta.env.BASE_URL;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
+    <script is:inline>
+      // Apply the saved light/dark choice before first paint.
+      try {
+        const t = localStorage.getItem('site-theme');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+      } catch {}
+    </script>
+  </head>
+  <body class={bodyClass}>
+    <header class="site-header">
+      <slot name="header-start" />
+      <a class="brand" href={base}>
+        <span class="brand-code">{course.code}</span>
+        <span class="brand-sep">/</span>
+        <span class="brand-title"><slot name="crumb">{course.title}</slot></span>
+      </a>
+      <div class="header-spacer"></div>
+      <nav class="header-links">
+        {course.links.map((l) => <a href={l.href}>{l.label}</a>)}
+      </nav>
+      <slot name="header-end" />
+      <button class="btn icon theme-toggle" type="button" title="Toggle light/dark" aria-label="Toggle light/dark mode">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z" /></svg>
+      </button>
+    </header>
+    <slot />
+    <script>
+      const btn = document.querySelector<HTMLButtonElement>('.theme-toggle');
+      btn?.addEventListener('click', () => {
+        const root = document.documentElement;
+        const isDark = root.dataset.theme
+          ? root.dataset.theme === 'dark'
+          : matchMedia('(prefers-color-scheme: dark)').matches;
+        const next = isDark ? 'light' : 'dark';
+        root.dataset.theme = next;
+        try { localStorage.setItem('site-theme', next); } catch {}
+      });
+    </script>
+  </body>
+</html>

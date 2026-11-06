@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 240" font-family="Inter, system-ui, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="#646b77"/></marker>
+  </defs>
+  <g stroke-width="2.5">
+    <rect x="20" y="60" width="220" height="120" rx="14" fill="#e6edf8" stroke="#1f4e8c"/>
+    <rect x="340" y="60" width="220" height="120" rx="14" fill="#fff6e0" stroke="#c9921a"/>
+    <rect x="660" y="60" width="220" height="120" rx="14" fill="#e6edf8" stroke="#1f4e8c"/>
+    <path d="M245 120H332M565 120H652" stroke="#646b77" marker-end="url(#a)"/>
+  </g>
+  <g text-anchor="middle" fill="#1b1e23">
+    <text x="130" y="112" font-size="26" font-weight="700">lecture.md</text>
+    <text x="130" y="145" font-size="18" fill="#646b77">slides + notes</text>
+    <text x="450" y="112" font-size="26" font-weight="700">npm run build</text>
+    <text x="450" y="145" font-size="18" fill="#646b77">Astro + remark</text>
+    <text x="770" y="112" font-size="26" font-weight="700">Static site</text>
+    <text x="770" y="145" font-size="18" fill="#646b77">read · present · print</text>
+  </g>
+</svg>

@@ -1,0 +1,77 @@
+/* Design tokens. Change the accent here to re-brand the whole site. */
+:root {
+  --font-sans: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-serif: 'Source Serif 4 Variable', Georgia, 'Times New Roman', serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  /* Site chrome (follows light/dark mode) */
+  --bg: #f7f6f2;
+  --surface: #ffffff;
+  --surface-2: #efede7;
+  --text: #1c1f24;
+  --muted: #5d6470;
+  --border: #dedbd3;
+  --accent: #1f4e8c;
+  --accent-text: #ffffff;
+  --accent-soft: #e4ebf6;
+  --focus: #f2b630;
+  --shadow: 0 1px 2px rgb(20 24 30 / 0.06), 0 4px 16px rgb(20 24 30 / 0.06);
+
+  /* Slides (independent of site mode; see .deck[data-slide-theme]) */
+  --slide-bg: #ffffff;
+  --slide-text: #1b1e23;
+  --slide-muted: #646b77;
+  --slide-accent: #1f4e8c;
+  --slide-accent-soft: #e6edf8;
+  --slide-highlight: #f2b630;
+  --slide-code-bg: #f4f5f7;
+  --slide-border: #e1e4ea;
+
+  --radius: 10px;
+  --header-h: 56px;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #121418;
+    --surface: #1a1d23;
+    --surface-2: #22262e;
+    --text: #e7e6e2;
+    --muted: #9ba2ad;
+    --border: #2d313a;
+    --accent: #7fa9e6;
+    --accent-text: #0e1420;
+    --accent-soft: #1f2a3b;
+    --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 4px 16px rgb(0 0 0 / 0.3);
+    color-scheme: dark;
+  }
+}
+:root[data-theme='dark'] {
+  --bg: #121418;
+  --surface: #1a1d23;
+  --surface-2: #22262e;
+  --text: #e7e6e2;
+  --muted: #9ba2ad;
+  --border: #2d313a;
+  --accent: #7fa9e6;
+  --accent-text: #0e1420;
+  --accent-soft: #1f2a3b;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 4px 16px rgb(0 0 0 / 0.3);
+  color-scheme: dark;
+}
+
+/* Mono ligatures turn ":::" and "->" into glyphs; show code exactly as typed. */
+code, pre, kbd { font-variant-ligatures: none; }
+
+.deck[data-slide-theme='dark'],
+.presenter[data-slide-theme='dark'] {
+  --slide-bg: #16191f;
+  --slide-text: #ecebe6;
+  --slide-muted: #a0a7b2;
+  --slide-accent: #8ab4f0;
+  --slide-accent-soft: #233046;
+  --slide-highlight: #f2c25a;
+  --slide-code-bg: #1f232b;
+  --slide-border: #2e333d;
+}
