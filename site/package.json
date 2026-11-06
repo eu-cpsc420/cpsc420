@@ -10,7 +10,7 @@
     "check": "astro check"
   },
   "dependencies": {
-    "@eu-cpsc/lecture-slides": "github:eu-cpsc/lecture-slides#f9e6182ac72bb30c9ba537f41316273ab2f9ecf4",
+    "@eu-cpsc/lecture-slides": "^0.1.0",
     "astro": "^5.18.2"
   },
   "devDependencies": {
