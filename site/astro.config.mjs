@@ -19,9 +19,9 @@ export default defineConfig({
         links: [],
       },
       brand: 'evangel',
-      // Official EU logo files go in public/ (get them from University Marketing):
-      // logo: 'logo.svg',            // maroon, for light backgrounds
-      // logoOnDark: 'logo-white.svg', // white, for title slides and dark mode
+      // EU shield: maroon on light backgrounds, white on dark (EU Brand Guide).
+      logo: 'eu-shield.png',
+      logoOnDark: 'eu-shield-white.png',
       favicon: 'favicon.svg',
     }),
   ],
