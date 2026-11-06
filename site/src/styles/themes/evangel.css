@@ -1,0 +1,61 @@
+/*
+ * Evangel University theme, from the EU Brand Guide (2022):
+ * https://www.evangel.edu/wp-content/uploads/2022/10/EU_Brand-Guidelines.pdf
+ *
+ * Colours ("University Brand Colors" and "Accent Colors"):
+ *   Maroon #75243d (PMS 209)   Gray  #98988f (PMS 415)
+ *   Lake   #285c69 (PMS 5473)  Cave  #baab8a (PMS 452)
+ *   Stone  #515252 (PMS 425)   Red   #be2e3e (PMS 1805)
+ *   Leaf   #55705b (PMS 5615)  Blaze #d56c47 (PMS 7618)
+ *   Light Gray #d2d3ce (Warm Gray 1)
+ *   Maroon gradient: Maroon -> Red
+ *
+ * Fonts ("University/AGTS Fonts"): Bitter ExtraBold for headings, Bitter Bold
+ * for subheadings, Bitter Italic for quotations, Open Sans for body copy.
+ *
+ * Gray (#98988f) is too light for text on white (2.9:1), so Stone is used for
+ * secondary text and Gray only for decoration.
+ *
+ * The EU logo is not included: add the official files from University
+ * Marketing and set `logo` / `logoOnDark` in src/course.ts.
+ */
+:root[data-brand='evangel'] {
+  --eu-maroon: #75243d;
+  --eu-gray: #98988f;
+  --eu-lake: #285c69;
+  --eu-cave: #baab8a;
+  --eu-stone: #515252;
+  --eu-red: #be2e3e;
+  --eu-leaf: #55705b;
+  --eu-blaze: #d56c47;
+  --eu-light-gray: #d2d3ce;
+
+  --brand-primary: var(--eu-maroon);
+  --brand-primary-2: var(--eu-red);
+  --brand-primary-on-dark: var(--eu-cave);
+  --brand-on-primary: #ffffff;
+  --brand-secondary: var(--eu-lake);
+  --brand-highlight: var(--eu-blaze);
+  --brand-warn: var(--eu-blaze);
+  --brand-muted: var(--eu-stone);
+  --brand-line: var(--eu-light-gray);
+  --brand-paper: #f6f5f2;
+  --brand-ink: #222324;
+  --brand-dark: #18191a;
+  --brand-dark-slide: #1d1e1f;
+  --brand-pattern: url('./topography.svg');
+
+  --font-heading: 'Bitter Variable', Georgia, serif;
+  --font-sans: 'Open Sans Variable', 'Segoe UI', system-ui, sans-serif;
+  --font-notes: 'Open Sans Variable', 'Segoe UI', system-ui, sans-serif;
+  --heading-weight: 800;
+}
+
+/* Quotations in Bitter Italic */
+:root[data-brand='evangel'] .slide blockquote,
+:root[data-brand='evangel'] .notes blockquote {
+  font-family: var(--font-heading);
+  font-style: italic;
+}
+/* <mark> in Cave, which reads better than Blaze behind text */
+:root[data-brand='evangel'] .slide mark { background: color-mix(in srgb, var(--eu-cave) 55%, transparent); }

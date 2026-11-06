@@ -1,9 +1,12 @@
 ---
-import '@fontsource-variable/inter';
-import '@fontsource-variable/source-serif-4';
+import '@fontsource-variable/bitter/wght.css';
+import '@fontsource-variable/bitter/wght-italic.css';
+import '@fontsource-variable/open-sans/wdth.css';
+import '@fontsource-variable/open-sans/wght-italic.css';
 import '@fontsource-variable/jetbrains-mono';
 import 'katex/dist/katex.min.css';
 import '../styles/tokens.css';
+import '../styles/themes/evangel.css';
 import '../styles/site.css';
 import '../styles/slides.css';
 import '../styles/print.css';
@@ -16,10 +19,13 @@ interface Props {
 }
 const { title, description = course.blurb, bodyClass } = Astro.props;
 const base = import.meta.env.BASE_URL;
+const asset = (p?: string) => (p ? base + p.replace(/^\//, '') : undefined);
+const logo = asset(course.logo);
+const logoOnDark = asset(course.logoOnDark);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-brand={course.brand}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -38,6 +44,8 @@ const base = import.meta.env.BASE_URL;
     <header class="site-header">
       <slot name="header-start" />
       <a class="brand" href={base}>
+        {logo && <img class:list={['brand-logo', { 'has-dark': !!logoOnDark }]} src={logo} alt="" />}
+        {logoOnDark && <img class="brand-logo on-dark" src={logoOnDark} alt="" />}
         <span class="brand-code">{course.code}</span>
         <span class="brand-sep">/</span>
         <span class="brand-title"><slot name="crumb">{course.title}</slot></span>

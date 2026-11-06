@@ -38,6 +38,21 @@ Course-wide settings (course title, term, instructor, header links) are in
 `src/course.ts`. The demo lecture `00-using-these-slides.md` shows every
 feature; delete it or set `draft: true` when you no longer need it.
 
+## Branding
+
+The site uses the Evangel University theme (`src/styles/themes/evangel.css`),
+taken from the [EU Brand Guide](https://www.evangel.edu/wp-content/uploads/2022/10/EU_Brand-Guidelines.pdf):
+Maroon and Red (the maroon gradient) for title and section slides, Lake for
+subheadings, Stone for secondary text, Bitter for headings and Open Sans for
+body text. Set `brand: 'default'` in `src/course.ts` for a neutral look.
+
+A theme only sets a few `--brand-*` colours and `--font-*` families. Light/dark
+mode and the dark slide theme are derived from them in `src/styles/tokens.css`.
+
+**Logo:** the EU logo isn't included. Get the official files from University
+Marketing, put them in `public/`, and set `logo` (maroon, for light
+backgrounds) and `logoOnDark` (white, for title slides) in `src/course.ts`.
+
 ## Authoring format
 
 ```md

@@ -3,9 +3,9 @@
     <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="#646b77"/></marker>
   </defs>
   <g stroke-width="2.5">
-    <rect x="20" y="60" width="220" height="120" rx="14" fill="#e6edf8" stroke="#1f4e8c"/>
-    <rect x="340" y="60" width="220" height="120" rx="14" fill="#fff6e0" stroke="#c9921a"/>
-    <rect x="660" y="60" width="220" height="120" rx="14" fill="#e6edf8" stroke="#1f4e8c"/>
+    <rect x="20" y="60" width="220" height="120" rx="14" fill="#f3e9ec" stroke="#75243d"/>
+    <rect x="340" y="60" width="220" height="120" rx="14" fill="#eef3f4" stroke="#285c69"/>
+    <rect x="660" y="60" width="220" height="120" rx="14" fill="#f3e9ec" stroke="#75243d"/>
     <path d="M245 120H332M565 120H652" stroke="#646b77" marker-end="url(#a)"/>
   </g>
   <g text-anchor="middle" fill="#1b1e23">
