@@ -1,25 +1,28 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import remarkDirective from 'remark-directive';
-import remarkMath from 'remark-math';
-import rehypeKatex from 'rehype-katex';
-import remarkSlides from './src/plugins/remark-slides.mjs';
+import lectureSlides from '@eu-cpsc/lecture-slides';
 
 // GitHub Pages serves a project site at https://<owner>.github.io/<repo>/.
-// SITE_URL / BASE_PATH can be overridden (e.g. for a custom domain, BASE_PATH=/).
-const site = process.env.SITE_URL ?? 'https://eu-cpsc420.github.io';
-const base = process.env.BASE_PATH ?? '/cpsc420';
-
+// The Pages workflow sets SITE_URL / BASE_PATH; these defaults are for local builds.
 export default defineConfig({
-  site,
-  base,
+  site: process.env.SITE_URL ?? 'https://eu-cpsc420.github.io',
+  base: process.env.BASE_PATH ?? '/cpsc420',
   trailingSlash: 'always',
-  markdown: {
-    remarkPlugins: [remarkDirective, remarkMath, remarkSlides],
-    rehypePlugins: [rehypeKatex],
-    shikiConfig: {
-      themes: { light: 'github-light', dark: 'github-dark' },
-      wrap: false,
-    },
-  },
+  integrations: [
+    lectureSlides({
+      course: {
+        code: 'CPSC 420',
+        title: 'Course Title',
+        term: 'Term YYYY',
+        instructor: 'Instructor Name',
+        blurb: 'Lecture slides and notes. Open any lecture to read it, or press P to present.',
+        links: [],
+      },
+      brand: 'evangel',
+      // Official EU logo files go in public/ (get them from University Marketing):
+      // logo: 'logo.svg',            // maroon, for light backgrounds
+      // logoOnDark: 'logo-white.svg', // white, for title slides and dark mode
+      favicon: 'favicon.svg',
+    }),
+  ],
 });

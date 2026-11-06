@@ -197,8 +197,9 @@ Each block directly inside `::::columns` is one column. Use `:::column` to
 group several things (a heading and a list, say) into one column. Nesting
 three levels deep needs five, four and three colons, so keep it shallow.
 
-Any `:::name` block becomes an HTML `<div class="name">`, so new building
-blocks are just CSS in `src/styles/slides.css`. Ones already styled:
+Any `:::name` block becomes an HTML `<div class="name">`, so a new building
+block is just a CSS rule (add your own file with the `customCss` option).
+Ones already styled:
 `columns`/`column`, `steps`, `callout` (and `callout{.warn}`), `center`,
 `fill` (fills the remaining space, good for a diagram), `bottom`, `muted`,
 `big`.
@@ -273,4 +274,4 @@ between slides, and :kbd[N] shows speaker notes inline.
 
 ## Questions?
 
-<small>Next: add your first lecture by copying `templates/lecture.md`</small>
+<small>Next: add your first lecture by copying the lecture template from the package's `templates/` folder</small>
