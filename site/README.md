@@ -36,10 +36,10 @@ npm run build      # static site in site/dist/
 | `astro.config.mjs` | Course details, theme, logo, base path |
 | `src/content.config.ts` | Registers the lectures collection (no changes needed) |
 | `src/content/lectures/` | Lectures and their images |
-| `public/` | Favicon, logo files |
+| `public/` | Favicon and other static files |
 
-**Logo:** the official EU logo isn't included yet. Put the files from
-University Marketing in `public/` and set `logo` and `logoOnDark` in
+**Logo:** the EU shield comes with the package's Evangel theme. To use
+different files, put them in `public/` and set `logo` / `logoOnDark` in
 `astro.config.mjs`.
 
 ## Updating the slide system

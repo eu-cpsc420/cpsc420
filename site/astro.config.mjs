@@ -19,9 +19,8 @@ export default defineConfig({
         links: [],
       },
       brand: 'evangel',
-      // EU shield: maroon on light backgrounds, white on dark (EU Brand Guide).
-      logo: 'eu-shield.png',
-      logoOnDark: 'eu-shield-white.png',
+      // The 'evangel' theme includes the EU shield logo. To use other files from
+      // public/, set logo / logoOnDark; set them to false for no logo.
       favicon: 'favicon.svg',
     }),
   ],
