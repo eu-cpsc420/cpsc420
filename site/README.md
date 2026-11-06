@@ -44,8 +44,12 @@ different files, put them in `public/` and set `logo` / `logoOnDark` in
 
 ## Updating the slide system
 
-The package is pinned in `package.json`. To update, change the version (or
-commit) after `#` and run `npm install`.
+The package comes from npm. To update to the newest release:
+
+```bash
+cd site
+npm install @eu-cpsc/lecture-slides@latest
+```
 
 ## Deploying
 
