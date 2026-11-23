@@ -10,8 +10,8 @@
     "check": "astro check"
   },
   "dependencies": {
-    "@eu-cpsc/lecture-slides": "^0.2.1",
-    "astro": "^5.18.2"
+    "@eu-cpsc/lecture-slides": "^0.3.1",
+    "astro": "^7.4.13"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
