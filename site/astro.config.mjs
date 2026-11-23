@@ -5,7 +5,7 @@ import lectureSlides from '@eu-cpsc/lecture-slides';
 // GitHub Pages serves a project site at https://<owner>.github.io/<repo>/.
 // The Pages workflow sets SITE_URL / BASE_PATH; these defaults are for local builds.
 export default defineConfig({
-  site: process.env.SITE_URL ?? 'https://eu-cpsc420.github.io',
+  site: process.env.SITE_URL || 'https://eu-cpsc420.github.io',
   base: process.env.BASE_PATH ?? '/cpsc420',
   trailingSlash: 'always',
   integrations: [

@@ -10,7 +10,7 @@ the presenter view, or print the page for a handout.
 
 ## Running locally
 
-Requires Node 22+.
+Requires Node 22.23.4+.
 
 ```bash
 cd site
